@@ -10,7 +10,6 @@ from ram_kpis import get_ram_kpis, get_swap_kpis
 
 def write_to_csv(file_path, data):
     with open(file_path, mode='a', newline='') as file:
-        print("Write done")  # TODO: remove print
         writer = csv.writer(file)
         writer.writerow(data)
 
@@ -41,8 +40,7 @@ header = header + ['ram_percent', 'ram_total', 'ram_used', 'ram_available', 'ram
                    'swap_used', 'swap_free', 'docker_container']
 
 write_to_csv('system_usage.csv', header)
-# TODO: convert to 1 minute
-schedule.every(5).seconds.do(record_system_usage)
+schedule.every(1).minute.do(record_system_usage)
 
 docker_info = Docker_collecter()
 
