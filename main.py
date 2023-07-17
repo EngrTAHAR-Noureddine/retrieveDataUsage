@@ -40,7 +40,7 @@ header = header + ['ram_percent', 'ram_total', 'ram_used', 'ram_available', 'ram
                    'swap_used', 'swap_free', 'docker_container']
 
 write_to_csv('system_usage.csv', header)
-schedule.every(1).minute.do(record_system_usage)
+schedule.every(5).minute.do(record_system_usage)
 
 docker_info = Docker_collecter()
 
