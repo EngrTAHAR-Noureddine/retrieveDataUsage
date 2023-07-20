@@ -12,11 +12,15 @@ this like main file but the functions in one file
 
 # Install Package to record Usgaes every day
 `sudo apt-get install sysstat`
+<br /><br />
 Then enable data collecting:
-`
-$ sudo vi /etc/default/sysstat
-change ENABLED="false" to ENABLED="true"
-save the file
-`
+<br />
+`$ sudo vi /etc/default/sysstat`
+<br />
+`change ENABLED="false" to ENABLED="true"`
+<br />
+`save the file`
+<br /><br />
 Last, restart the sysstat service:
+<br />
 `$ sudo service sysstat restart`
