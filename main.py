@@ -30,8 +30,13 @@ def record_system_usage():
     write_to_csv(file_csv_path, data)
 
 
-header = ['timestamp', 'cpu_load', 'cpu_numbers', 'IPS', 'CPS', 'queue_length', 'pid_count', 'gpu_numbers',
-          'ram_percent', 'swap_total', 'swap_percent', 'disk_utilization', 'disk_latency', 'docker_container']
+header = ['timestamp',
+          'cpu_load', 'avg_temp_cpu', 'cpu_numbers', 'IPS', 'CPS', 'queue_length', 'pid_count',
+          'gpu_numbers', 'avg_gpu_temperature',
+          'ram_percent',
+          'swap_total', 'swap_percent',
+          'disk_utilization', 'disk_latency',
+          'docker_container']
 
 write_to_csv(file_csv_path, header)
 schedule.every(5).minutes.do(record_system_usage)

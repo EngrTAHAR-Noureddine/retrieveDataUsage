@@ -1,6 +1,8 @@
 import psutil
 import time
 
+from tempurature_cpu import get_avg_cpu_temperature
+
 
 def get_cpus():
     try:
@@ -11,6 +13,7 @@ def get_cpus():
 
 
 def get_cpu_kpi():
+    avg_temp_cpu = get_avg_cpu_temperature()
     cpus_percent = []
     if get_cpus() > 0:
         cpus_percent = psutil.cpu_percent(interval=1, percpu=True)
@@ -32,7 +35,7 @@ def get_cpu_kpi():
     except Exception:
         running_cpus = 0
     # cpus_percent, cpu_load, ips, cps, queue_length, pid_count
-    return [cpu_load, running_cpus, ips, cps, queue_length, pid_count()]
+    return [cpu_load, avg_temp_cpu, running_cpus, ips, cps, queue_length, pid_count()]
 
 
 def pid_count():
