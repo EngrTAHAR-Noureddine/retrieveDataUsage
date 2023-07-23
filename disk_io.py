@@ -1,5 +1,6 @@
 import psutil
 import time
+from tempurature_cpu import get_disk_temperature
 
 
 def get_disk_latency():
@@ -24,8 +25,9 @@ def get_disk_io():
     disk_latency = get_disk_latency()
     disk_utilization = psutil.disk_usage('/').percent
     disk_io_counters = psutil.disk_io_counters()
+    disk_temperature = get_disk_temperature()
     # read_count = disk_io_counters.read_count
     # write_count = disk_io_counters.write_count
     # read_bytes = disk_io_counters.read_bytes / 1024 / 1024
     # write_bytes = disk_io_counters.write_bytes / 1024 / 1024
-    return [disk_utilization, disk_latency]
+    return [disk_utilization, disk_latency, disk_temperature]
