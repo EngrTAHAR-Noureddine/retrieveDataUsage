@@ -2,10 +2,10 @@ import schedule
 import time
 import csv
 from datetime import datetime
-from cpu_kpis import get_cpus, get_cpu_kpi
+from cpu_kpis import get_cpu_kpi
 from disk_io import get_disk_io
 from docker_info import Docker_collecter
-from gpu_kpis import get_gpus, get_gpu_kpis
+from gpu_kpis import get_gpu_kpis
 from ram_kpis import get_ram_kpis, get_swap_kpis
 
 file_csv_path = "system_usage.csv"
@@ -30,18 +30,8 @@ def record_system_usage():
     write_to_csv(file_csv_path, data)
 
 
-header = ['timestamp']
-
-if get_cpus() > 0:
-    header = header + [f'cpu_{i}_usage' for i in range(get_cpus())]
-
-header = header + ['cpu_load', 'IPS', 'CPS', 'queue_length', 'pid_count']
-
-if get_gpus() > 0:
-    header = header + [f'gpu_{i}_usage' for i in range(get_gpus())]
-
-header = header + ['ram_percent', 'ram_total', 'ram_used', 'ram_available', 'ram_free', 'swap_percent', 'swap_total',
-                   'swap_used', 'swap_free', 'disk_utilization','disk_latency', 'read_count', 'read_bytes', 'write_count', 'write_bytes', 'docker_container']
+header = ['timestamp', 'cpu_load', 'cpu_numbers', 'IPS', 'CPS', 'queue_length', 'pid_count', 'gpu_numbers',
+          'ram_percent', 'swap_total', 'swap_percent', 'disk_utilization', 'disk_latency', 'docker_container']
 
 write_to_csv(file_csv_path, header)
 schedule.every(5).minutes.do(record_system_usage)

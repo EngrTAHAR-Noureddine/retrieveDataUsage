@@ -27,8 +27,12 @@ def get_cpu_kpi():
     cps = (ctx_switches2 - ctx_switches1) / 1
     ips = abs(ips)
     cps = abs(cps)
+    try:
+        running_cpus = sum(usage > 0 for usage in cpus_percent)
+    except Exception:
+        running_cpus = 0
     # cpus_percent, cpu_load, ips, cps, queue_length, pid_count
-    return cpus_percent + [cpu_load, ips, cps, queue_length, pid_count()]
+    return [cpu_load, running_cpus, ips, cps, queue_length, pid_count()]
 
 
 def pid_count():

@@ -14,4 +14,9 @@ def get_gpu_kpis():
     gpu_percent = []
     for gpu in gpus:
         gpu_percent.append(gpu.load * 100)
-    return gpu_percent
+    try:
+        running_gpus = sum(usage > 0 for usage in gpu_percent)
+    except Exception:
+        running_gpus = 0
+
+    return [running_gpus]
