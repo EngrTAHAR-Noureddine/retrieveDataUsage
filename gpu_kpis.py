@@ -16,7 +16,7 @@ def get_gpu_kpis():
     for gpu in gpus:
         gpu_percent.append(gpu.load * 100)
         gpu_temperatures = [gpu.temperature for gpu in gpus]
-    avg_gpu_temperature = 0
+    avg_gpu_temperature = None
     if gpu_temperatures:
         avg_gpu_temperature = sum(gpu_temperatures) / len(gpu_temperatures)
     try:
