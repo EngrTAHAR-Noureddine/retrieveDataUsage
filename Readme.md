@@ -6,10 +6,6 @@ run setup.sh to install the packages
 this main file contains the functions that are in seperated files
 `python3 main.py`
 
-# RUN run_in_one_file
-this like main file but the functions in one file 
-`python3 run_in_one_file.py`
-
 # Install Package to record Usgaes every day
 `sudo apt-get install sysstat`
 <br /><br />
