@@ -104,6 +104,36 @@ def write_to_csv(file_path, data):
         writer.writerow(data)
 
 
+# DISK I/O
+def get_disk_latency():
+    # Get disk I/O counters for the first time
+    io_counters_start = psutil.disk_io_counters()
+
+    # Wait for a short interval to capture the change in disk I/O counters
+    time.sleep(1)
+
+    # Get disk I/O counters again after the interval
+    io_counters_end = psutil.disk_io_counters()
+
+    # Calculate the busy_time (disk latency) as the difference between read_time and write_time
+    read_time_diff = io_counters_end.read_time - io_counters_start.read_time
+    write_time_diff = io_counters_end.write_time - io_counters_start.write_time
+    busy_time = read_time_diff + write_time_diff
+
+    return busy_time
+
+
+def get_disk_io():
+    disk_latency = get_disk_latency()
+    disk_utilization = psutil.disk_usage('/').percent
+    disk_io_counters = psutil.disk_io_counters()
+    read_count = disk_io_counters.read_count
+    write_count = disk_io_counters.write_count
+    read_bytes = disk_io_counters.read_bytes / 1024 / 1024
+    write_bytes = disk_io_counters.write_bytes / 1024 / 1024
+    return [disk_utilization, disk_latency, read_count, read_bytes, write_count, write_bytes]
+
+
 # RECORD DATA
 def record_system_usage():
     global docker_info
@@ -111,9 +141,10 @@ def record_system_usage():
     gpu_kpis = get_gpu_kpis()
     ram_kpis = get_ram_kpis()
     swap_kpis = get_swap_kpis()
+    disk_io = get_disk_io()
 
     current_time = datetime.now().strftime('%d-%m-%Y %H:%M:%S')
-    data = [current_time] + cpu_kpis + gpu_kpis + ram_kpis + swap_kpis + [docker_info.get_container_count()]
+    data = [current_time] + cpu_kpis + gpu_kpis + ram_kpis + swap_kpis + disk_io + [docker_info.get_container_count()]
     write_to_csv('system_usage.csv', data)
 
 
@@ -128,7 +159,7 @@ if get_gpus() > 0:
     header = header + [f'gpu_{i}_usage' for i in range(get_gpus())]
 
 header = header + ['ram_percent', 'ram_total', 'ram_used', 'ram_available', 'ram_free', 'swap_percent', 'swap_total',
-                   'swap_used', 'swap_free', 'docker_container']
+                   'swap_used', 'swap_free', 'disk_utilization','disk_latency', 'read_count', 'read_bytes', 'write_count', 'write_bytes', 'docker_container']
 
 write_to_csv('system_usage.csv', header)
 schedule.every(5).minute.do(record_system_usage)
