@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/Users/taharnoureddine/PycharmProjects/retrieveDataUsage/main.py", line 49, in <module>
+    time.sleep(1)
+KeyboardInterrupt
