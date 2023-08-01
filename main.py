@@ -26,7 +26,7 @@ def record_system_usage():
     disk_io = get_disk_io()
 
     current_time = datetime.now().strftime('%d-%m-%Y %H:%M:%S')
-    data = [current_time] + cpu_kpis + gpu_kpis + ram_kpis + swap_kpis + disk_io + [docker_info.get_container_count()]
+    data = [current_time] + cpu_kpis + gpu_kpis + ram_kpis + swap_kpis + disk_io + docker_info.get_container_count()
     write_to_csv(file_csv_path, data)
 
 
@@ -36,7 +36,7 @@ header = ['timestamp',  # 1
           'ram_percent',  # 1
           'swap_total', 'swap_percent',  # 1
           'disk_utilization', 'disk_latency', 'disk_temperature',  # 3
-          'docker_container'  # 1
+          'containers_all', 'containers_running', 'container_paused', 'containers_stopped'  # 4
           ]  # 16
 
 write_to_csv(file_csv_path, header)
